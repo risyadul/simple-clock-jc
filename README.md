@@ -53,32 +53,6 @@ A minimalist clock and timer application built with modern Android development p
 - Material3 Design
 - Koin Dependency Injection
 
-## Project Structure
-
-app/
-├── src/
-│ ├── main/
-│ │ ├── java/com/example/simpleclock/
-│ │ │ ├── data/
-│ │ │ │ └── repository/ # Repository implementations
-│ │ │ ├── domain/
-│ │ │ │ ├── model/ # Domain models
-│ │ │ │ ├── repository/ # Repository interfaces
-│ │ │ │ ├── timer/ # Timer-related domain logic
-│ │ │ │ └── usecase/ # Business logic use cases
-│ │ │ ├── presentation/
-│ │ │ │ ├── navigation/ # Navigation components
-│ │ │ │ └── screen/
-│ │ │ │ ├── clock/ # Clock feature
-│ │ │ │ ├── main/ # Main container screen
-│ │ │ │ └── timer/ # Timer feature
-│ │ │ ├── service/ # Background services
-│ │ │ └── ui/
-│ │ │ └── theme/ # App theming
-│ │ └── res/ # Resources
-│ └── test/ # Unit tests
-└── build.gradle # App level build config
-
 ## Design
 
 ### UI/UX Features
