@@ -9,6 +9,24 @@ import com.example.simpleclock.presentation.screen.timer.components.TimerButtons
 import com.example.simpleclock.presentation.screen.timer.components.TimerDisplay
 import com.example.simpleclock.presentation.screen.timer.components.TimerPicker
 
+/**
+ * Main screen composable for the timer feature
+ * Shows either a time picker or running timer display based on timer state
+ *
+ * Layout structure:
+ * ```
+ * [Timer Picker/Display]
+ *        Spacer
+ * [Control Buttons    ]
+ * ```
+ *
+ * Features:
+ * - Switches between picker and display based on timer state
+ * - Centered layout with proper spacing
+ * - Control buttons for timer operations
+ *
+ * @param viewModel ViewModel that manages timer state and operations
+ */
 @Composable
 fun TimerScreen(viewModel: TimerViewModel) {
     val timerState by viewModel.timerState.collectAsState()

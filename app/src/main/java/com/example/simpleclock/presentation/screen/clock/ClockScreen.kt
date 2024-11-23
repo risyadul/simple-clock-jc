@@ -13,6 +13,12 @@ import androidx.compose.ui.unit.dp
 import com.example.simpleclock.presentation.screen.clock.components.DateDisplay
 import com.example.simpleclock.presentation.screen.clock.components.TimeDisplay
 
+/**
+ * Main screen composable for the clock feature
+ * Displays current time and date in a vertically centered layout with gradient background
+ *
+ * @param viewModel ViewModel that provides time and date updates
+ */
 @Composable
 fun ClockScreen(viewModel: ClockViewModel) {
     val currentTime by viewModel.currentTime.collectAsState()
@@ -24,8 +30,8 @@ fun ClockScreen(viewModel: ClockViewModel) {
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFF2B2D42),
-                        Color(0xFF1A1B2E)
+                        Color(0xFF2B2D42), // Dark blue gradient start
+                        Color(0xFF1A1B2E)  // Darker blue gradient end
                     )
                 )
             )

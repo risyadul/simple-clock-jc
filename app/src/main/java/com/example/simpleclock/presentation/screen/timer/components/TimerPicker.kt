@@ -10,6 +10,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+/**
+ * Time picker component for setting timer duration
+ * Features:
+ * - Three number pickers for hours, minutes, and seconds
+ * - Semi-transparent background with rounded corners
+ * - Proper spacing between pickers
+ * - Labels for each picker (h, m, s)
+ *
+ * Layout:
+ * ```
+ * [HH] [MM] [SS]
+ * [h ] [m ] [s ]
+ * ```
+ *
+ * @param hours Current hours value
+ * @param minutes Current minutes value
+ * @param seconds Current seconds value
+ * @param onTimeSet Callback when any time value changes
+ */
 @Composable
 fun TimerPicker(
     hours: Int,

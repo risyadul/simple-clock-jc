@@ -10,6 +10,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+/**
+ * Control buttons for timer operations
+ * Features:
+ * - Start/Pause button that changes based on timer state
+ * - Reset button
+ * - Proper button states (enabled/disabled) based on timer state
+ * - Semi-transparent styling consistent with app theme
+ *
+ * @param isRunning Whether the timer is currently running
+ * @param totalSeconds Total seconds set in the timer
+ * @param onStartPause Callback for start/pause button click
+ * @param onReset Callback for reset button click
+ */
 @Composable
 fun TimerButtons(
     isRunning: Boolean,
@@ -20,6 +33,7 @@ fun TimerButtons(
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        // Start/Pause button
         Button(
             onClick = onStartPause,
             colors = ButtonDefaults.buttonColors(
@@ -37,6 +51,7 @@ fun TimerButtons(
             )
         }
 
+        // Reset button
         Button(
             onClick = onReset,
             colors = ButtonDefaults.buttonColors(

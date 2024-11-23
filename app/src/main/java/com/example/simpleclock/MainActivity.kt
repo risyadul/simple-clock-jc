@@ -19,33 +19,62 @@ import com.example.simpleclock.ui.theme.MyApplicationTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
+/**
+ * MainActivity is the main entry point of the application that handles:
+ * - ViewModel initialization using Koin
+ * - BroadcastReceiver registration for Timer
+ * - UI setup using Jetpack Compose
+ */
 class MainActivity : ComponentActivity() {
     companion object {
+        private const val TAG = "MainActivity"
         const val EXTRA_SHOW_TIMER = "EXTRA_SHOW_TIMER"
     }
 
+    // ViewModel injection using Koin
     private val clockViewModel: ClockViewModel by viewModel()
     private val timerViewModel: TimerViewModel by viewModel { parametersOf(applicationContext) }
+
+    // BroadcastReceiver to receive updates from TimerService
     private val timerReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            when (intent?.action) {
-                TimerService.ACTION_UPDATE -> {
-                    val timeLeft = intent.getIntExtra(TimerService.EXTRA_TIME, 0)
-                    timerViewModel.updateTime(timeLeft)
-                }
-                TimerService.ACTION_STATE_CHANGE -> {
-                    val timeLeft = intent.getIntExtra(TimerService.EXTRA_TIME, 0)
-                    val isRunning = intent.getBooleanExtra(TimerService.EXTRA_IS_RUNNING, false)
-                    timerViewModel.updateState(timeLeft, isRunning)
-                }
-            }
+            handleTimerServiceUpdate(intent)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        // Register receiver
+        setupTimerReceiver()
+        initializeTimerService()
+        setupUserInterface()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterTimerReceiver()
+    }
+
+    /**
+     * Handles updates received from TimerService
+     */
+    private fun handleTimerServiceUpdate(intent: Intent?) {
+        when (intent?.action) {
+            TimerService.ACTION_UPDATE -> {
+                val timeLeft = intent.getIntExtra(TimerService.EXTRA_TIME, 0)
+                timerViewModel.updateTime(timeLeft)
+            }
+            TimerService.ACTION_STATE_CHANGE -> {
+                val timeLeft = intent.getIntExtra(TimerService.EXTRA_TIME, 0)
+                val isRunning = intent.getBooleanExtra(TimerService.EXTRA_IS_RUNNING, false)
+                timerViewModel.updateState(timeLeft, isRunning)
+            }
+        }
+    }
+
+    /**
+     * Registers BroadcastReceiver to receive timer updates
+     */
+    private fun setupTimerReceiver() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             registerReceiver(
                 timerReceiver,
@@ -56,14 +85,23 @@ class MainActivity : ComponentActivity() {
                 Context.RECEIVER_NOT_EXPORTED
             )
         }
+    }
 
-        // Request current state from service
+    /**
+     * Starts the TimerService
+     */
+    private fun initializeTimerService() {
         Intent(this, TimerService::class.java).also { intent ->
             startService(intent)
         }
+    }
 
+    /**
+     * Sets up the UI using Jetpack Compose
+     */
+    private fun setupUserInterface() {
         val showTimer = intent?.getBooleanExtra(EXTRA_SHOW_TIMER, false) ?: false
-
+        
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
@@ -76,12 +114,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    /**
+     * Cleans up BroadcastReceiver when Activity is destroyed
+     */
+    private fun unregisterTimerReceiver() {
         try {
             unregisterReceiver(timerReceiver)
         } catch (e: Exception) {
-            Log.e(MainActivity::class.java.simpleName, e.localizedMessage.orEmpty())
+            Log.e(TAG, "Error unregistering receiver: ${e.localizedMessage.orEmpty()}")
         }
     }
 }

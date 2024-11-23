@@ -13,17 +13,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.simpleclock.domain.model.TimerState
 
+/**
+ * Displays the running timer countdown
+ * Features:
+ * - Responsive font size based on screen width
+ * - Semi-transparent background with rounded corners
+ * - Formats time as HH:MM:SS
+ * - Adapts to different screen sizes
+ *
+ * @param state Current state of the timer containing time values
+ */
 @Composable
 fun TimerDisplay(state: TimerState) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     
+    // Responsive font size based on screen width
     val fontSize = when {
         screenWidth < 360.dp -> 48.sp
         screenWidth < 480.dp -> 56.sp
         else -> 72.sp
     }
     
+    // Responsive padding based on screen width
     val horizontalPadding = when {
         screenWidth < 360.dp -> 16.dp
         screenWidth < 480.dp -> 24.dp

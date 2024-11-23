@@ -13,6 +13,25 @@ import com.example.simpleclock.presentation.screen.clock.ClockViewModel
 import com.example.simpleclock.presentation.screen.timer.TimerScreen
 import com.example.simpleclock.presentation.screen.timer.TimerViewModel
 
+/**
+ * Main container screen for the application that handles navigation between Clock and Timer features
+ *
+ * Features:
+ * - Bottom navigation bar for switching between Clock and Timer screens
+ * - Gradient background that's consistent across the app
+ * - Maintains selected tab state
+ * - Supports initial tab selection (useful for notification navigation)
+ *
+ * Layout structure:
+ * ```
+ * [Content Area (Clock/Timer)]
+ * [Bottom Navigation Bar    ]
+ * ```
+ *
+ * @param clockViewModel ViewModel for the Clock screen
+ * @param timerViewModel ViewModel for the Timer screen
+ * @param initialTab The tab to show when first displaying the screen (defaults to Clock)
+ */
 @Composable
 fun MainScreen(
     clockViewModel: ClockViewModel,

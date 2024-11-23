@@ -13,6 +13,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.simpleclock.domain.model.TimeData
 
+/**
+ * Composable that displays the current time in a stylized format
+ * Features:
+ * - Hours and minutes in large text
+ * - Seconds and AM/PM indicator in smaller text
+ * - Semi-transparent background with rounded corners
+ * - Different text sizes and opacities for visual hierarchy
+ *
+ * Layout:
+ * ```
+ * [HH:MM] [SS]
+ *         [AM/PM]
+ * ```
+ *
+ * @param time TimeData object containing hours, minutes, seconds, and AM/PM indicator
+ */
 @Composable
 fun TimeDisplay(time: TimeData) {
     Row(
