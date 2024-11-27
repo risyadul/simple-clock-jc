@@ -14,6 +14,7 @@ import com.example.simpleclock.presentation.navigation.BottomNavItem
 import com.example.simpleclock.presentation.screen.main.MainScreen
 import com.example.simpleclock.presentation.screen.clock.ClockViewModel
 import com.example.simpleclock.presentation.screen.timer.TimerViewModel
+import com.example.simpleclock.presentation.screen.alarm.AlarmViewModel
 import com.example.simpleclock.service.TimerService
 import com.example.simpleclock.ui.theme.MyApplicationTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,11 +30,13 @@ class MainActivity : ComponentActivity() {
     companion object {
         private const val TAG = "MainActivity"
         const val EXTRA_SHOW_TIMER = "EXTRA_SHOW_TIMER"
+        const val EXTRA_SHOW_ALARM = "EXTRA_SHOW_ALARM"
     }
 
     // ViewModel injection using Koin
     private val clockViewModel: ClockViewModel by viewModel()
     private val timerViewModel: TimerViewModel by viewModel { parametersOf(applicationContext) }
+    private val alarmViewModel: AlarmViewModel by viewModel()
 
     // BroadcastReceiver to receive updates from TimerService
     private val timerReceiver = object : BroadcastReceiver() {
@@ -101,6 +104,7 @@ class MainActivity : ComponentActivity() {
      */
     private fun setupUserInterface() {
         val showTimer = intent?.getBooleanExtra(EXTRA_SHOW_TIMER, false) ?: false
+        val showAlarm = intent?.getBooleanExtra(EXTRA_SHOW_ALARM, false) ?: false
         
         enableEdgeToEdge()
         setContent {
@@ -108,7 +112,19 @@ class MainActivity : ComponentActivity() {
                 MainScreen(
                     clockViewModel = clockViewModel,
                     timerViewModel = timerViewModel,
-                    initialTab = if (showTimer) BottomNavItem.Timer else BottomNavItem.Clock
+                    alarmViewModel = alarmViewModel,
+                    initialTab = when {
+                        showTimer -> BottomNavItem.Timer
+                        showAlarm -> BottomNavItem.Alarm
+                        else -> BottomNavItem.Clock
+                    },
+                    onOpenAlarmSettings = {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            val intent = Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                        }
+                    }
                 )
             }
         }

@@ -1,6 +1,6 @@
 # Simple Clock App
 
-A minimalist clock and timer application built with modern Android development practices.
+A minimalist clock, timer, and alarm application built with modern Android development practices.
 
 ## Features
 
@@ -18,6 +18,16 @@ A minimalist clock and timer application built with modern Android development p
 - Persistent notification with timer controls
 - Continues running when app is in background
 
+### Alarm
+- Set multiple alarms
+- Repeat options (daily, weekdays, weekends, custom)
+- Customizable alarm sound
+- Vibration support
+- Snooze functionality
+- Background alarm service
+- Persistent notification for active alarms
+- Auto-start on device boot
+
 ## Technical Details
 
 ### Architecture
@@ -25,6 +35,7 @@ A minimalist clock and timer application built with modern Android development p
 - Unidirectional data flow using Kotlin StateFlow
 - Dependency injection using Koin
 - Single activity with Jetpack Compose navigation
+- Room database for alarm storage
 
 ### Key Components
 
@@ -38,11 +49,14 @@ A minimalist clock and timer application built with modern Android development p
 - Use cases for business logic
 - Repository interfaces
 - Domain models
+- Alarm scheduling logic
 
 #### Data Layer
 - Repository implementations
+- Room database for alarms
 - Time formatting utilities
 - System service integrations
+- Alarm state persistence
 
 ### Technologies Used
 - Kotlin
@@ -50,8 +64,10 @@ A minimalist clock and timer application built with modern Android development p
 - Coroutines & Flow
 - Android Services
 - BroadcastReceivers
+- Room Database
 - Material3 Design
 - Koin Dependency Injection
+- WorkManager for alarms
 
 ## Design
 
@@ -61,20 +77,13 @@ A minimalist clock and timer application built with modern Android development p
 - Responsive typography
 - Intuitive controls
 - Consistent visual language
+- Smooth animations
+- Interactive alarm management
 
 ### Color Scheme
 - Primary gradient: Dark blue (#2B2D42) to darker blue (#1A1B2E)
 - Semi-transparent overlays: #3A3D50 with varying alpha
 - White text with different opacity levels for hierarchy
+- Accent colors for alarm states
 
-## Future Improvements
-- Light theme support
-- Multiple timers
-- Timer presets
-- Alarm functionality
-- Widget support
-- Settings screen
-- More customization options
-
-## Contributing
-Feel free to submit issues and enhancement requests.
+## Project Structure

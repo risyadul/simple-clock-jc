@@ -12,6 +12,8 @@ import com.example.simpleclock.presentation.screen.clock.ClockScreen
 import com.example.simpleclock.presentation.screen.clock.ClockViewModel
 import com.example.simpleclock.presentation.screen.timer.TimerScreen
 import com.example.simpleclock.presentation.screen.timer.TimerViewModel
+import com.example.simpleclock.presentation.screen.alarm.AlarmScreen
+import com.example.simpleclock.presentation.screen.alarm.AlarmViewModel
 
 /**
  * Main container screen for the application that handles navigation between Clock and Timer features
@@ -30,13 +32,17 @@ import com.example.simpleclock.presentation.screen.timer.TimerViewModel
  *
  * @param clockViewModel ViewModel for the Clock screen
  * @param timerViewModel ViewModel for the Timer screen
+ * @param alarmViewModel ViewModel for the Alarm screen
  * @param initialTab The tab to show when first displaying the screen (defaults to Clock)
+ * @param onOpenAlarmSettings Callback to open alarm settings screen
  */
 @Composable
 fun MainScreen(
     clockViewModel: ClockViewModel,
     timerViewModel: TimerViewModel,
-    initialTab: BottomNavItem = BottomNavItem.Clock
+    alarmViewModel: AlarmViewModel,
+    initialTab: BottomNavItem = BottomNavItem.Clock,
+    onOpenAlarmSettings: () -> Unit
 ) {
     var selectedItem by remember { mutableStateOf(initialTab) }
 
@@ -46,7 +52,11 @@ fun MainScreen(
                 containerColor = Color(0xFF1A1B2E),
                 contentColor = Color.White
             ) {
-                listOf(BottomNavItem.Clock, BottomNavItem.Timer).forEach { item ->
+                listOf(
+                    BottomNavItem.Clock,
+                    BottomNavItem.Timer,
+                    BottomNavItem.Alarm
+                ).forEach { item ->
                     NavigationBarItem(
                         icon = { Icon(item.icon, contentDescription = item.label) },
                         label = { Text(item.label) },
@@ -80,6 +90,10 @@ fun MainScreen(
             when (selectedItem) {
                 BottomNavItem.Clock -> ClockScreen(clockViewModel)
                 BottomNavItem.Timer -> TimerScreen(timerViewModel)
+                BottomNavItem.Alarm -> AlarmScreen(
+                    viewModel = alarmViewModel,
+                    onOpenSettings = onOpenAlarmSettings
+                )
             }
         }
     }
